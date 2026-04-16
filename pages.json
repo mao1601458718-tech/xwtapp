@@ -1,0 +1,676 @@
+{
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [{
+			"path": "pages/splash/splash",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}, {
+			"path": "pages/work/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/mine/avatar/index",
+			"style": {
+				"navigationBarTitleText": "修改头像"
+			}
+		}, {
+			"path": "pages/mine/info/index",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		}, {
+			"path": "pages/mine/info/edit",
+			"style": {
+				"navigationBarTitleText": "编辑资料"
+			}
+		}, {
+			"path": "pages/mine/pwd/index",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		}, {
+			"path": "pages/mine/setting/index",
+			"style": {
+				"navigationBarTitleText": "应用设置"
+			}
+		}, {
+			"path": "pages/mine/help/index",
+			"style": {
+				"navigationBarTitleText": "常见问题"
+			}
+		}, {
+			"path": "pages/mine/about/index",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		}, {
+			"path": "pages/common/webview/index",
+			"style": {
+				"navigationBarTitleText": "浏览网页"
+			}
+		}, {
+			"path": "pages/common/textview/index",
+			"style": {
+				"navigationBarTitleText": "浏览文本"
+			}
+		},
+		{
+			"path": "pages/work/sign",
+			"style": {
+				"navigationBarTitleText": "签到登记"
+			}
+		},
+		{
+			"path": "pages/management/check/patrol",
+			"style": {
+				"navigationBarTitleText": "巡检管理"
+			}
+		},
+		{
+			"path": "pages/management/check/addOrUpdatePatrol",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/management/plan/planList",
+			"style": {
+				"navigationBarTitleText": "计划列表"
+			}
+		},
+		{
+			"path": "pages/management/offLine/planList",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/management/offLine/check/addOrUpdatePatrol",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/management/offLine/check/patrol",
+			"style": {
+				"navigationBarTitleText": "巡检管理"
+			}
+		},
+
+
+		{
+			"path": "pages/management/offLine/planInfo",
+			"style": {
+				"navigationBarTitleText": "离线维保系统"
+			}
+		}, {
+			"path": "pages/management/offLine/planExplain",
+			"style": {
+				"navigationBarTitleText": "离线维保情况"
+			}
+		},
+		{
+			"path": "pages/management/offLine/systemTabInfo",
+			"style": {
+				"navigationBarTitleText": "离线维保详细内容",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/management/offLine/planSystem",
+			"style": {
+				"navigationBarTitleText": "离线系统设备"
+			}
+		},
+		{
+			"path": "pages/management/offLine/systemInfo",
+			"style": {
+				"navigationBarTitleText": "离线系统设备"
+			}
+		},
+
+		{
+			"path": "pages/management/offLine/select/selectBuildings",
+			"style": {
+				"navigationBarTitleText": "选择建筑",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/management/offLine/select/selectSystem",
+			"style": {
+				"navigationBarTitleText": "选择系统",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		}, {
+			"path": "pages/management/offLine/select/selectSystemItem",
+			"style": {
+				"navigationBarTitleText": "选择设备项",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+
+
+		{
+			"path": "pages/management/plan/planInfo",
+			"style": {
+				"navigationBarTitleText": "维保系统"
+			}
+		},
+		{
+			"path": "pages/management/plan/planSystem",
+			"style": {
+				"navigationBarTitleText": "系统设备"
+			}
+		},
+		{
+			"path": "pages/management/plan/systemInfo",
+			"style": {
+				"navigationBarTitleText": "系统设备"
+			}
+		},
+		{
+			"path": "pages/management/plan/systemTabInfo",
+			"style": {
+				"navigationBarTitleText": "维保详细内容",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/management/planFault/faultIndex",
+			"style": {
+				"navigationBarTitleText": "故障维修"
+			}
+		},
+		{
+			"path": "pages/management/planFault/faultInfo",
+			"style": {
+				"navigationBarTitleText": "故障详情"
+			}
+		},
+		{
+			"path": "pages/management/planFault/addFaultInfo",
+			"style": {
+				"navigationBarTitleText": "故障登记"
+			}
+		},
+		{
+			"path": "pages/management/planFault/transmitUserList",
+			"style": {
+				"navigationBarTitleText": "故障转派"
+			}
+		},
+		{
+			"path": "pages/management/facility/facilityIndex",
+			"style": {
+				"navigationBarTitleText": "设备管理"
+			}
+		},
+		{
+			"path": "pages/management/facility/addFacility",
+			"style": {
+				"navigationBarTitleText": "设备登记"
+			}
+		},
+		{
+			"path": "pages/management/facility/facilityList",
+			"style": {
+				"navigationBarTitleText": "设备列表"
+			}
+		},
+		{
+			"path": "pages/management/facility/facilityInfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/management/buildings/buildingsList",
+			"style": {
+				"navigationBarTitleText": "建筑列表"
+			}
+		}, {
+			"path": "pages/management/buildings/addBuilding",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/check/buildings/buildingsList",
+			"style": {
+				"navigationBarTitleText": "建筑列表"
+			}
+		}, {
+			"path": "pages/check/buildings/addBuilding",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/safety/buildings/buildingsList",
+			"style": {
+				"navigationBarTitleText": "建筑列表"
+			}
+		}, {
+			"path": "pages/safety/buildings/addBuilding",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+
+
+		{
+			"path": "pages/danger/addDanger",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/danger/dangerList",
+			"style": {
+				"navigationBarTitleText": "待排查",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/danger/completeList",
+			"style": {
+				"navigationBarTitleText": "已完成",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/danger/reviewList",
+			"style": {
+				"navigationBarTitleText": "待复查",
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/management/plan/seeReport",
+			"style": {
+				"navigationBarTitleText": "报告列表"
+			}
+		},
+		{
+			"path": "pages/check/pdf/seeReport",
+			"style": {
+				"navigationBarTitleText": "报告列表"
+			}
+		}, {
+			"path": "pages/safety/pdf/seeReport",
+			"style": {
+				"navigationBarTitleText": "报告列表"
+			}
+		},
+		{
+			"path": "pages/check/facilityCheck/checkIndex",
+			"style": {
+				"navigationBarTitleText": "设施检测点列表"
+			}
+		},
+		{
+			"path": "pages/check/fhCheck/checkIndex",
+			"style": {
+				"navigationBarTitleText": "防火检测点列表"
+			}
+		},
+		{
+			"path": "pages/check/fhCheck/fhCheckIndex",
+			"style": {
+				// "navigationBarTitleText": "检测点列表",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/check/facilityCheck/facilityCheckIndex",
+			"style": {
+				// "navigationBarTitleText": "检测点列表",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/check/facilityCheck/checkInfo",
+			"style": {
+				"navigationBarTitleText": "新增检测点"
+			}
+		},
+		{
+			"path": "pages/check/facilityCheck/updateCheckInfo",
+			"style": {
+				"navigationBarTitleText": "修改检测点"
+			}
+		},
+		{
+			"path": "pages/check/facilityCheck/checkStandard",
+			"style": {
+				"navigationBarTitleText": "检测标准"
+			}
+		},
+		{
+			"path": "pages/check/log/log",
+			"style": {
+				"navigationBarTitleText": "操作日志"
+			}
+		},
+		{
+			"path": "pages/safety/project/projectIndex",
+			"style": {
+				"navigationBarTitleText": "项目信息"
+			}
+		},
+		{
+			"path": "pages/safety/project/setItem",
+			"style": {
+				"navigationBarTitleText": "项目设定"
+			}
+		},
+		{
+			"path": "pages/safety/problem/problemIndex",
+			"style": {
+				"navigationBarTitleText": "问题列表"
+			}
+		},
+		{
+			"path": "pages/safety/problem/problemInfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/safety/check/checkIndex",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/safety/check/checkList",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/safety/check/addCheckInfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/safety/check/problemPage",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/work/signNvue",
+			"style": {
+				"navigationBarTitleText": "签到登记"
+			}
+		},
+		{
+			"path": "pages/common/safety/selectDict",
+			"style": {
+				"navigationBarTitleText": "所属类别",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/common/safety/selectDictItem",
+			"style": {
+				"navigationBarTitleText": "所属小类",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+
+
+		{
+			"path": "pages/common/selectBuildings",
+			"style": {
+				"navigationBarTitleText": "选择建筑",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/common/selectSystem",
+			"style": {
+				"navigationBarTitleText": "选择系统",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		}, {
+			"path": "pages/common/selectCheckItem",
+			"style": {
+				"navigationBarTitleText": "选择设备项",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/common/projectSelectSystemItem",
+			"style": {
+				"navigationBarTitleText": "选择检测类别",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+
+		{
+			"path": "pages/common/selectDeviceSystem",
+			"style": {
+				"navigationBarTitleText": "选择系统",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/common/selectSystemItem",
+			"style": {
+				"navigationBarTitleText": "选择设备",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/management/plan/planExplain",
+			"style": {
+				"navigationBarTitleText": "维保情况"
+			}
+		},
+		{
+			"path": "pages/work/msg/mgInfo/mgInfo",
+			"style": {
+				"navigationBarTitleText": "通知详情"
+			}
+		},
+		{
+			"path": "pages/mine/versions",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{
+			"path": "pages/mine/privacy",
+			"style": {
+				"navigationBarTitleText": "隐私政策"
+			}
+		},
+		{
+			"path": "pages/danger/problemPage",
+			"style": {
+				"navigationBarTitleText": "问题详情"
+			}
+		},
+		{
+			"path": "pages/danger/problemList",
+			"style": {
+				"navigationBarTitleText": "问题列表"
+			}
+		},
+		{
+			"path": "pages/danger/troubleshoot",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/management/offLine/offLineIndex",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/check/offLine/offLineIndex",
+			"style": {
+				"navigationBarTitleText": "离线设施检测"
+			}
+		},
+		{
+			"path": "pages/check/offLine/fhOffLineIndex",
+			"style": {
+				"navigationBarTitleText": "离线防火检测"
+			}
+		},
+		{
+			"path": "pages/check/offLine/facilityCheckIndex",
+			"style": {
+				// "navigationBarTitleText": "检测点列表",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/check/offLine/checkInfo",
+			"style": {
+				"navigationBarTitleText": "新增离线检测点"
+			}
+		},
+		{
+			"path": "pages/check/offLine/updateCheckInfo",
+			"style": {
+				"navigationBarTitleText": "修改离线检测点"
+			}
+		},
+		{
+			"path": "pages/check/offLine/select/selectBuildings",
+			"style": {
+				"navigationBarTitleText": "选择建筑",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 300
+				}
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#000000",
+		"selectedColor": "#000000",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index",
+				"iconPath": "static/images/tabbar/home.png",
+				"selectedIconPath": "static/images/tabbar/home_.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/work/index",
+				"iconPath": "static/images/tabbar/work.png",
+				"selectedIconPath": "static/images/tabbar/work_.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/mine/index",
+				"iconPath": "static/images/tabbar/mine.png",
+				"selectedIconPath": "static/images/tabbar/mine_.png",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "RuoYi",
+		"navigationBarBackgroundColor": "#FFFFFF"
+	}
+}

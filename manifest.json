@@ -1,0 +1,187 @@
+{
+	"name": "消维通",
+	"appid": "__UNI__3CBB90B",
+	"description": "",
+	"versionName": "1.2.0",
+	"versionCode": "100",
+	"transformPx": false,
+	"ios": {
+		"bundleId": "xiaoweitong.plus"
+	},
+	"app-plus": {
+		"usingComponents": true,
+		"nvueCompiler": "uni-app",
+		"splashscreen": {
+			"alwaysShowBeforeRender": true,
+			"waiting": true,
+			"autoclose": true,
+			"delay": 0
+		},
+		"modules": {
+			"Geolocation": {},
+			"Camera": {},
+			"Contacts": {},
+			"Maps": {}
+		},
+		"distribute": {
+			"android": {
+				"permissions": [
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.INTERNET\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>",
+					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+					"<uses-permission android:name=\"android.permission.BLUETOOTH\"/>",
+					"<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+				],
+				"abiFilters": ["armeabi-v7a", "arm64-v8a", "x86"]
+			},
+			"ios": {
+				"dSYMs": false,
+				"privacyDescription": {
+					"NSPhotoLibraryUsageDescription": "本应用需要访问您的相册，以便您选择图片上传。",
+					"NSPhotoLibraryAddUsageDescription": "本应用需要保存图片到您的相册，以便您查看和管理已生成的内容",
+					"NSCameraUsageDescription": "本应用需要访问您的摄像头，以便您拍摄照片或视频进行上传或编辑",
+					"NSLocationWhenInUseUsageDescription": "本应用需要获取您的当前位置，以便提供基于位置的服务",
+					"NSLocationAlwaysAndWhenInUseUsageDescription": "本应用需要获取您的当前位置，以便提供基于位置的服务"
+				}
+			},
+			"sdkConfigs": {
+				"maps": {
+					"amap": {
+						"name": "amapEZoaeS7i",
+						"appkey_ios": "b5745bfff1a57afb6746d431cd4b4fe7",
+						"appkey_android": "d7665cb329d4948635a6de2a0781bc83"
+					}
+				},
+				"geolocation": {
+					"system": {
+						"__platform__": ["ios", "android"]
+					},
+					"amap": {
+						"name": "amapEZoaeS7i",
+						"__platform__": ["ios", "android"],
+						"appkey_ios": "b5745bfff1a57afb6746d431cd4b4fe7",
+						"appkey_android": "d7665cb329d4948635a6de2a0781bc83"
+					}
+				}
+			},
+			"splashscreen": {
+				"androidStyle": "default",
+				"android": {
+					"ldpi": "static/images/splash/drawable-port-ldpi-screen.png",
+					"mdpi": "static/images/splash/drawable-port-mdpi-screen.png",
+					"hdpi": "static/images/splash/drawable-port-xhdpi-screen.png",
+					"xhdpi": "static/images/splash/drawable-port-xhdpi-screen.png",
+					"xxhdpi": "static/images/splash/drawable-port-xxhdpi-screen.png",
+					"xxxhdpi": "static/images/splash/drawable-port-xxxhdpi-screen.png"
+				},
+				"iosStyle": "default",
+				"ios": {
+					"iphone": {
+						"portrait-896h@3x": "static/images/splash/ios/Default-2688h~iphone.png",
+						"landscape-896h@3x": "static/images/splash/ios/Default-Landscape-2688h~iphone.png",
+						"landscape-896h@2x": "static/images/splash/ios/Default-Landscape-1792h~iphone.png",
+						"portrait-896h@2x": "static/images/splash/ios/Default-1792h~iphone.png",
+						"iphonex": "static/images/splash/ios/Default-2436h.png",
+						"iphonexl": "static/images/splash/ios/Default-Landscape-2436h.png",
+						"retina35": "static/images/splash/ios/Default@2x~iphone.png"
+					},
+					"ipad": {
+						"landscape-1366h@2x": "static/images/splash/ios/Default-Landscape@~ipadpro.png",
+						"landscape-retina7": "static/images/splash/ios/Default-Landscape@2x~ipad.png",
+						"landscape7": "static/images/splash/ios/Default-Landscape~ipad.png",
+						"portrait-retina7": "static/images/splash/ios/Default-Portrait@2x~ipad.png",
+						"portrait7": "static/images/splash/ios/Default-Portrait~ipad.png",
+						"portrait-1366h@2x": "static/images/splash/ios/Default-Portrait@~ipadpro.png"
+					}
+				}
+			},
+			"icons": {
+				"android": {
+					"hdpi": "unpackage/res/icons/72x72.png",
+					"xhdpi": "unpackage/res/icons/96x96.png",
+					"xxhdpi": "unpackage/res/icons/144x144.png",
+					"xxxhdpi": "unpackage/res/icons/192x192.png"
+				},
+				"ios": {
+					"appstore": "unpackage/res/icons/1024x1024.png",
+					"ipad": {
+						"app": "unpackage/res/icons/76x76.png",
+						"app@2x": "unpackage/res/icons/152x152.png",
+						"notification": "unpackage/res/icons/20x20.png",
+						"notification@2x": "unpackage/res/icons/40x40.png",
+						"proapp@2x": "unpackage/res/icons/167x167.png",
+						"settings": "unpackage/res/icons/29x29.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight": "unpackage/res/icons/40x40.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png"
+					},
+					"iphone": {
+						"app@2x": "unpackage/res/icons/120x120.png",
+						"app@3x": "unpackage/res/icons/180x180.png",
+						"notification@2x": "unpackage/res/icons/40x40.png",
+						"notification@3x": "unpackage/res/icons/60x60.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"settings@3x": "unpackage/res/icons/87x87.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"spotlight@3x": "unpackage/res/icons/120x120.png"
+					}
+				}
+			}
+		}
+	},
+	"quickapp": {},
+	"mp-weixin": {
+		"appid": "wx589d747f5d05bf9a",
+		"setting": {
+			"urlCheck": false,
+			"es6": false,
+			"minified": true,
+			"postcss": true
+		},
+		"optimization": {
+			"subPackages": true
+		},
+		"usingComponents": true
+	},
+	"vueVersion": "2",
+	"h5": {
+		"template": "static/index.html",
+		"devServer": {
+			"port": 9090,
+			"https": false
+		},
+		"title": "RuoYi-App",
+		"router": {
+			"mode": "hash",
+			"base": "./"
+		},
+		"sdkConfigs": {
+			"maps": {
+				"amap": {
+					"key": "af0df133d442a75b171b7c90ccd60791",
+					"securityJsCode": "",
+					"serviceHost": ""
+				}
+			}
+		}
+	},
+	"locale": "zh-Hans",
+	"fallbackLocale": "zh-Hans"
+}
