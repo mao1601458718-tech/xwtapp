@@ -1,0 +1,927 @@
+<template>
+	<view class="pageView" :style="'height:'+windowHeight+'rpx ;'">
+		<view class="mapViewTop">
+			<view class="mapViewTop-1">
+				<view class="mapViewTop-2">
+					<text class="textClass1">
+						签到项目：
+					</text>
+				</view>
+				<view class="mapViewTop-5">
+					<text class="textClass2">
+						{{atPorject.checkProjectName}}
+					</text>
+				</view>
+			</view>
+			<view class="mapViewTop-1" v-if="atType=='maintenance'">
+				<view class="mapViewTop-2">
+					<text class="textClass1">
+						签到计划：
+					</text>
+				</view>
+				<view class="mapViewTop-3">
+					<text class="textClass2">
+						{{atPlan.planName||"暂无需要签到计划"}}
+					</text>
+				</view>
+				<view class="mapViewTop-4"> <u-icon name="list-dot" color="#999999" size="25"
+						@click="rightPopup=true"></u-icon></view>
+			</view>
+		</view>
+		<map class="mapView" :style="'height:'+windowHeight+'rpx ;'" :latitude="params.lat" :longitude="params.lng"
+			:markers="covers" :include-points="includePoints">
+		</map>
+		<view class="mapViewBotton">
+			<view class="mapViewBotton1">
+				<view class="mapViewBotton1-1">
+					<text class="bottonText1">
+						我的位置
+					</text>
+				</view>
+				<view class="mapViewBotton1-2">
+					<text class="bottonText2">{{params.lng}},{{params.lat}}</text>
+				</view>
+			</view>
+			<view class="mapViewBotton2">
+				<view class="mapViewBotton2-1">
+					<text class="bottonText1">
+						地址：
+					</text>
+				</view>
+				<view class="mapViewBotton2-2">
+					<text class="bottonText2 u-line-2">
+						{{params.location}}
+					</text>
+				</view>
+			</view>
+			<view class="buttonView" :class="showSignTextclass()" @click="addSign()">
+				<text class="bottonText3">
+					{{showSignText()}}
+				</text>
+			</view>
+		</view>
+
+		<u-popup :show="rightPopup" mode="bottom" :zIndex="99999999" :overlay="false" @close="popupClose"
+			@open="popupOpen">
+			<view class="uPopup">
+				<view class="uPopupTop">
+					<view class="uPopupTop1"></view>
+					<view class="uPopupTop2">
+						<text class="uPopupTop2">签到计划</text>
+					</view>
+					<view class="uPopupTop3"><u-icon @click="popupClose()" name="close" color="#999999"
+							size="22"></u-icon></view>
+				</view>
+				<view class="planListView">
+					<view class="collapse-item" v-for="(item,index) in planList" :key="index" @click="selecrPlan(item)">
+						<view class="collapse-icon on" v-if="item.singLog>0"><text class="on">已</text></view>
+						<view class="collapse-icon off" v-else><text text class="off">未</text></view>
+						<view class="collapse-title">
+							{{item.planName}}
+						</view>
+						<view class="collapse-select">
+							<image class="collapse-image" v-if="atPlan.id==item.id"
+								src="/static/images/function/dui.png">
+							</image>
+						</view>
+					</view>
+				</view>
+
+				<view class="notPlanList" v-if="!planList||planList.length==0">
+					<text class="notPlanListText">— 暂无签到计划 —</text>
+				</view>
+			</view>
+		</u-popup>
+
+		<u-modal :show="uModal.show" :title="uModal.title" showCancelButton @confirm="confirm"
+			@cancel="cancel"></u-modal>
+
+		<u-popup :show="imgPopup" mode="center" @close="imgPopupClose" :closeOnClickOverlay="false">
+			<view class="imgPopupView">
+				<view class="imgPopupTop">
+					<view class="imgPopupTop1"></view>
+					<view class="imgPopupTop2">
+						<text class="imgPopupTop2">签到图片</text>
+					</view>
+					<view class="imgPopupTop3"><u-icon @click="imgPopupClose()" name="close" color="#999999"
+							size="22"></u-icon></view>
+				</view>
+				<view class="imgTitle"><text class="imgTitleText1">请按要求拍摄签到图片</text></view>
+				<view class="imgViewList">
+					<view class="imgView" @click="getImg(1)">
+						<view class="iconView" v-if="!imgList.src1">
+							<view class="imgIcon"><u-icon name="plus" color="#999999" size="35"></u-icon></view>
+							<view class="iconView1"><text class="imgTitleText">{{imgList.text1}}</text></view>
+						</view>
+						<view v-else>
+							<image class="image" :src="imgList.src1"></image>
+						</view>
+					</view>
+					<view class="imgView" @click="getImg(2)">
+						<view class="iconView" v-if="!imgList.src2">
+							<view class="imgIcon"><u-icon name="plus" color="#999999" size="35"></u-icon></view>
+							<view class="iconView1"><text class="imgTitleText">{{imgList.text2}}</text></view>
+						</view>
+						<view v-else>
+							<image class="image" :src="imgList.src2"></image>
+						</view>
+					</view>
+
+				</view>
+				<view class="signBotton">
+					<text class="bottonText3" @click="postSign()">
+						签 到
+					</text>
+				</view>
+			</view>
+		</u-popup>
+
+	</view>
+</template>
+
+<script>
+	import {
+		findPlanManagementList,
+		maintenanceSaveSignLog
+	} from '@/api/maintenance/maintenance'
+	import {
+		findByProjectCheckProject,
+		reGeo,
+		projectSaveSignLog
+	} from '@/api/project/project.js'
+	import {
+		findBySafetyCheckProject,
+		safetySaveSignLog
+	} from '@/api/safety/safety.js'
+	import {
+		dangerSaveSignLog
+	} from '@/api/danger/danger.js'
+	import {
+		uploadFile
+	} from '@/api/uploadFile'
+	export default {
+		data() {
+			return {
+				windowHeight: 0,
+				imgPopup: false,
+				rightPopup: false,
+				params: {
+					checkProjectId: "",
+					lat: "",
+					lng: "",
+					location: "",
+					planId: "",
+					projectId: "",
+					userId: "",
+					signType: 1,
+				},
+				covers: [],
+				includePoints: [],
+				atPorject: "",
+				atType: "",
+				planList: "",
+				atPlan: "",
+				uModal: {
+					show: false,
+					title: "",
+				},
+				imgList: {
+					src1: "",
+					text1: "拍摄现场建筑图片",
+					text2: "拍摄本人现场图片",
+					src2: ""
+				}
+			}
+		},
+		onReady() {
+
+
+		},
+		onLoad() {
+			this.atPorject = this.$store.state.user.checkProject;
+			this.atType = this.$store.state.user.atType;
+			this.params.checkProjectId = this.atPorject.id;
+			this.params.projectId = this.$store.state.user.projectId;
+			this.params.userId = this.$store.state.user.id;
+			this.windowHeight = this.$store.state.user.windowHeight
+			let coversList = [];
+			let includePoint = [];
+			this.includePoints = [];
+			this.params.lat = this.atPorject.lat;
+			this.params.lng = this.atPorject.lng;
+			this.getReGeo();
+			this.$nextTick(() => {
+				uni.getLocation({
+					type: 'gcj02',
+					success: (res) => {
+						this.params.lat = res.latitude
+						this.params.lng = res.longitude
+						coversList.push({
+							id: 1,
+							latitude: res.latitude,
+							longitude: res.longitude,
+							iconPath: '../../../static/images/map/map1.png',
+						})
+						coversList.push({
+							id: 2,
+							latitude: this.atPorject.lat,
+							longitude: this.atPorject.lng,
+							iconPath: '../../../static/images/map/map2.png',
+						})
+						includePoint.push({
+							id: 1,
+							latitude: res.latitude + 0.1,
+							longitude: res.longitude,
+							iconPath: '../../../static/images/map/map1.png',
+						})
+						includePoint.push({
+							id: 2,
+							latitude: this.atPorject.lat - 0.1,
+							longitude: this.atPorject.lng,
+							iconPath: '../../../static/images/map/map2.png',
+						})
+						this.covers = coversList;
+						this.includePoints = includePoint
+						this.getReGeo();
+					}
+				});
+			})
+			this.getFindByCheckProject();
+		},
+		methods: {
+			//经纬度解析地址
+			getReGeo() {
+				let data = {
+					location: this.params.lng + "," + this.params.lat,
+				}
+				reGeo(data).then(res => {
+					if (res.status == 200) {
+						this.params.location = res.object.regeocode.formatted_address
+					} else {
+						uni.showToast({
+							title: "地址解析失败",
+							icon: 'none'
+						})
+						// this.$modal.showToast('地址解析失败')
+					}
+				})
+			},
+			getFindByCheckProject() {
+				let data = {
+					id: this.atPorject.id
+				}
+				if (this.atType == 'maintenance') {
+					this.getFindPlanManagementList();
+				} else if (this.atType == 'project') {
+					findByProjectCheckProject(data).then(res => {
+						this.atPlan = res.obj
+					})
+				} else if (this.atType == 'safety') {
+					findBySafetyCheckProject(data).then(res => {
+						this.atPlan = res.obj
+					})
+				}
+			},
+			//侧边弹框关闭
+			popupClose() {
+				this.rightPopup = false;
+			},
+			//侧边弹框打开
+			popupOpen() {
+
+			},
+			//签到图片弹框
+			imgPopupClose() {
+				this.imgPopup = false;
+			},
+			selecrPlan(item) {
+				this.atPlan = item;
+				this.popupClose();
+			},
+			showSignText() {
+
+				if (!this.atPlan && this.atType == 'maintenance') {
+					return "暂无签到计划"
+				}
+				if (this.atPlan && this.atPlan.singLog == 0) {
+					return "签 到"
+				}
+				if (this.atPlan && this.atPlan.singLog > 0) {
+					return "已 签 到"
+				}
+			},
+			showSignTextclass() {
+				if (!this.atPlan && this.atType == 'maintenance') {
+					return "buttonView2"
+				}
+				if (this.atPlan && this.atPlan.singLog > 0) {
+					return "buttonView1"
+				}
+			},
+			addSign() {
+				if (!this.atPlan) {
+					// this.$modal.showToast('暂无签到计划')
+					uni.showToast({
+						title: "暂无签到计划",
+						icon: 'none'
+					})
+					return;
+				}
+				if (this.atPlan && this.atPlan.singLog > 0) {
+					this.uModal.show = true;
+					this.uModal.title = "该项目已签到，是否继续签到。";
+					return;
+				}
+
+				if (this.atType == 'maintenance') {
+					this.uModal.show = true;
+					this.uModal.title = "签到计划：" + this.atPlan.planName + "";
+				} else {
+					this.uModal.show = true;
+					this.uModal.title = "签到项目：" + this.atPlan.checkProjectName + "";
+				}
+				this.imgList.text1 = "拍摄现场建筑图片";
+				this.imgList.text2 = "拍摄本人现场图片";
+			},
+			confirm() {
+				this.uModal.show = false;
+
+				this.imgList.src2 = "";
+				this.imgList.src1 = "";
+				this.imgList.text1 = "拍摄现场建筑图片";
+				this.imgList.text2 = "拍摄本人现场图片";
+				this.imgPopup = true;
+			},
+			cancel() {
+				this.uModal.show = false;
+			},
+			postSign() {
+				if (!this.imgList.src1 || !this.imgList.src2) {
+					// this.$modal.showToast('请先按要求上传图片')
+					uni.showToast({
+						title: "请先按要求上传图片",
+						icon: 'none'
+					})
+					return;
+				}
+				const params = {
+					...this.params,
+					imgPath: this.imgList.src1 + ';' + this.imgList.src2
+				};
+
+				if (this.atType == 'maintenance') {
+					// params.signType = this.atPlan.planTimeType;
+					params.planId = this.atPlan.id;
+					maintenanceSaveSignLog(params).then(res => {
+						console.log(res)
+						uni.showToast({
+							title: "签到成功",
+							icon: 'none'
+						})
+						this.atPlan.singLog = this.atPlan.singLog + 1
+						this.imgPopup = false;
+					})
+				} else if (this.atType == 'project') {
+					projectSaveSignLog(params).then(res => {
+						uni.showToast({
+							title: "签到成功",
+							icon: 'none'
+						})
+						this.atPlan.singLog = this.atPlan.singLog + 1
+						this.imgPopup = false;
+					})
+					this.atPorject["singLog"] = 1;
+					this.$store.dispatch('SetAtProject', this.atPorject)
+				} else if (this.atType == 'safety') {
+					safetySaveSignLog(params).then(res => {
+						uni.showToast({
+							title: "签到成功",
+							icon: 'none'
+						})
+						this.atPlan.singLog = this.atPlan.singLog + 1
+						this.imgPopup = false;
+					})
+					this.atPorject["singLog"] = 1;
+					this.$store.dispatch('SetAtProject', this.atPorject)
+				} else if (this.atType == 'danger') {
+					dangerSaveSignLog(params).then(res => {
+						uni.showToast({
+							title: "签到成功",
+							icon: 'none'
+						})
+						this.atPlan.singLog = this.atPlan.singLog + 1
+						this.imgPopup = false;
+					})
+				}
+
+
+			},
+			getFindPlanManagementList() {
+				let data = {
+					"customerId": this.atPorject.id,
+					"projectId": this.$store.state.user.projectId,
+					"pageIndex": 1,
+					"pageSize": 0,
+					"checkDate": "2021-04-20",
+					"effective": 1,
+					"clientType": 1
+				}
+
+				let time = new Date();
+				const year = time.getFullYear();
+				const month = (time.getMonth() + 1).toString().padStart(2, '0'); // 月份是从0开始的
+				let date = `${year}-${month}`;
+				findPlanManagementList(data).then(res => {
+					this.planList = res.listObj;
+					this.planList.forEach((item) => {
+						if (item.startDate.substring(0, 7) == date) {
+							this.atPlan = item;
+						}
+					})
+					if (!this.atPlan && this.planList.length > 0) {
+						this.atPlan = this.planList[0];
+					}
+				})
+			},
+			getImg(type) {
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed '], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['camera'], //从相册选择
+					success: (res) => {
+						let formData = {
+							packageName: "SignLog"
+						}
+						if (type == 1) {
+							this.imgList.text1 = "上传中"
+							uploadFile(res.tempFilePaths[0], formData, this.atType).then(src => {
+								console.log(src)
+								if (src) {
+									this.imgList.src1 = src
+								} else if (!src || src == "undefined") {
+									// this.$modal.showToast('上传失败')
+									this.imgList.text1 = "上传失败"
+								}
+
+							})
+						} else {
+							this.imgList.text2 = "上传中"
+							uploadFile(res.tempFilePaths[0], formData, this.atType).then(src => {
+								if (src) {
+									this.imgList.src2 = src
+								} else {
+									this.imgList.text2 = "上传失败"
+								}
+							})
+						}
+					}
+				});
+			}
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+	.pageView {
+		width: 750rpx;
+		background: #d4d4d4;
+	}
+
+	.mapView {
+		width: 750rpx;
+		height: 100%;
+	}
+
+
+
+	.mapViewTop {
+		width: calc(750rpx - 60rpx);
+		margin-left: 30rpx;
+		margin-top: 24rpx;
+		height: auto;
+		position: fixed;
+		z-index: 11;
+		background: #fff;
+		padding: 20rpx;
+		border-radius: 12rpx;
+	}
+
+	.mapViewTop-1 {
+		width: calc(750rpx - 60rpx);
+		// display: flex;
+		// align-items: center;
+		flex-direction: row;
+		height: auto;
+	}
+
+	.textClass1 {
+		font-size: 25rpx;
+	}
+
+	.textClass2 {
+		font-size: 30rpx;
+	}
+
+	.mapViewTop-2 {
+		width: 150rpx;
+		height: 50rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.mapViewTop-5 {
+		width: calc(750rpx - 260rpx);
+		min-height: 50rpx;
+		height: auto;
+		display: flex;
+		align-items: left;
+		justify-content: center;
+	}
+
+	.mapViewTop-3 {
+		width: calc(750rpx - 300rpx);
+		height: auto;
+		display: flex;
+		align-items: left;
+		justify-content: center;
+	}
+
+	.mapViewTop-4 {
+		width: 25px;
+		height: auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.mapViewBotton {
+		height: 302rpx;
+		width: 750rpx;
+		position: fixed;
+		z-index: 11;
+		background: #fff;
+		padding: 20rpx;
+		bottom: 0;
+	}
+
+	.mapViewBotton1 {
+		width: calc(750rpx - 40rpx);
+		flex-direction: row;
+		display: flex;
+		height: auto;
+		align-items: center;
+	}
+
+	.bottonText1 {
+		font-size: 25rpx;
+	}
+
+	.bottonText2 {
+		font-size: 30rpx;
+	}
+
+	.bottonText3 {
+		text-align: center;
+		line-height: 84rpx;
+		color: #ffffff;
+		font-weight: 600;
+	}
+
+	.mapViewBotton1-1 {
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 500;
+		font-size: 28rpx;
+		color: #333333;
+		text-align: left;
+		font-style: normal;
+		text-transform: none;
+		width: 110rpx;
+	}
+
+	.mapViewBotton1-2 {
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 400;
+		font-size: 24rpx;
+		color: #999999;
+		text-align: left;
+		font-style: normal;
+		text-transform: none;
+		margin-left: 20rpx;
+	}
+
+	.mapViewBotton2 {
+		width: calc(750rpx - 40rpx);
+		display: flex;
+		flex-direction: row;
+		height: auto;
+		align-items: center;
+		margin-top: 16rpx;
+		padding: 0 0 30rpx 0;
+		border-bottom: 1px solid #F5F5F5;
+
+	}
+
+	.mapViewBotton2-1 {
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 400;
+		font-size: 24rpx;
+		color: #999999;
+		text-align: left;
+		font-style: normal;
+		text-transform: none;
+		width: 110rpx;
+	}
+
+	.mapViewBotton2-2 {
+		width: 580rpx;
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 400;
+		font-size: 24rpx;
+		color: #999999;
+		text-align: left;
+		font-style: normal;
+		text-transform: none;
+		margin-left: 20rpx;
+
+	}
+
+	.buttonView {
+		width: calc(750rpx - 60rpx);
+		margin-left: 15rpx;
+		height: 84rpx;
+		text-align: center;
+		line-height: 84rpx;
+		margin-top: 15rpx;
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 600;
+		font-size: 32rpx;
+		color: #FFFFFF;
+		text-align: center;
+		font-style: normal;
+		text-transform: none;
+
+		background: #FA8161;
+		border-radius: 12rpx 12rpx 12rpx 12rpx;
+	}
+
+	.buttonView1 {
+		background: rgba(250, 129, 97, 0.7) !important;
+	}
+
+	.buttonView2 {
+		background: #F5F5F5 !important;
+		color: #9a9a9a;
+	}
+
+	.uPopup {
+		width: 750rpx;
+		height: 600px;
+		background: #fff;
+		border-radius: 12rpx 12rpx 0 0;
+	}
+
+	.planListView {
+		overflow-y: auto;
+		height: auto;
+	}
+
+	.uPopupTop {
+		width: 750rpx;
+		height: 80rpx;
+		flex-direction: row;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1px solid #F5F5F5;
+
+	}
+
+	.uPopupTop1 {
+		width: 50rpx;
+		height: 80rpx;
+		margin-left: 20rpx;
+
+	}
+
+	.uPopupTop2 {
+		width: auto;
+		height: 80rpx;
+		line-height: 80rpx;
+	}
+
+	.uPopupTop3 {
+		width: 50rpx;
+		height: 80rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin-right: 20rpx;
+	}
+
+	.collapse-item {
+		width: 750rpx;
+		height: auto;
+		flex-direction: row;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 90rpx;
+		border-bottom: 2rpx solid #E3E3E3;
+		padding: 10rpx 30rpx;
+
+	}
+
+	.collapse-select {
+		width: 50rpx;
+		height: 50rpx;
+
+
+	}
+
+	.collapse-image {
+		width: 30rpx;
+		height: 30rpx;
+	}
+
+	.collapse-icon {
+		width: 50rpx;
+		height: 50rpx;
+		text-align: center;
+		line-height: 50rpx;
+	}
+
+	.off {
+		font-size: 25rpx;
+		background: #f4f4f5;
+		color: #909399;
+		text-align: center;
+		line-height: 42rpx;
+		border: 1px solid #d9ecff;
+	}
+
+	.on {
+		font-size: 25rpx;
+		text-align: center;
+		line-height: 42rpx;
+		background: #f0f9eb;
+		color: #67c23a;
+		border: 1px solid #e1f3d8;
+	}
+
+	.collapse-title {
+		width: 590rpx;
+		height: auto;
+		padding: 0 0 0 20rpx;
+	}
+
+	.collapse-min-title {
+		font-size: 22rpx;
+		color: #909399;
+	}
+
+	.notPlanList {
+		width: 750rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		margin-top: 40rpx;
+	}
+
+	.notPlanListText {
+		// width: 750px;
+		text-align: center;
+		font-size: 28rpx;
+		color: #909399;
+	}
+
+	.imgPopupView {
+		width: 600rpx;
+		height: auto;
+		background: #FFFFFF;
+		box-shadow: 0rpx 2rpx 64rpx 2rpx rgba(151, 154, 158, 0.1);
+	}
+
+	.imgPopupTop {
+		width: 600rpx;
+		height: 80rpx;
+		flex-direction: row;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1px solid #F5F5F5;
+
+	}
+
+	.imgPopupTop1 {
+		width: 50rpx;
+		height: 80rpx;
+		margin-left: 20rpx;
+
+	}
+
+	.imgPopupTop2 {
+		width: auto;
+		height: 80rpx;
+		line-height: 80rpx;
+	}
+
+	.imgPopupTop3 {
+		width: 50rpx;
+		height: 80rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin-right: 20rpx;
+	}
+
+
+	.imgTitle {
+		padding: 10rpx 20rpx;
+	}
+
+	.imgTitleText1 {
+		font-size: 30rpx;
+	}
+
+	.imgTitleText {
+		font-size: 26rpx;
+	}
+
+	.imgViewList {
+		width: auto;
+		height: auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 0 30rpx;
+		margin-top: 20rpx;
+	}
+
+	.imgView {
+		width: 260rpx;
+		height: 400rpx;
+		border-radius: 12rpx 12rpx 12rpx 12rpx;
+		border: 2rpx solid rgba(0, 0, 0, 0);
+		background: #F1F1F1;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+
+		.image {
+			width: 260rpx;
+			height: 400rpx;
+			background-size: 100%;
+		}
+
+	}
+
+
+	.iconView {
+		width: 100%;
+		height: auto;
+	}
+
+	.imgIcon {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.iconView1 {
+		width: 100%;
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 400;
+		font-size: 24rpx;
+		color: #A4A4A4;
+		text-align: center;
+		font-style: normal;
+		text-transform: none;
+		margin-top: 40rpx;
+	}
+
+	.signBotton {
+		margin-top: 40rpx;
+		margin-bottom: 40rpx;
+		width: 540rpx;
+		margin-left: 30rpx;
+		height: 84rpx;
+		text-align: center;
+		line-height: 84rpx;
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 600;
+		font-size: 32rpx;
+		color: #FFFFFF;
+		text-align: center;
+		font-style: normal;
+		text-transform: none;
+		background: #FA8161;
+
+		border-radius: 12rpx 12rpx 12rpx 12rpx;
+	}
+</style>
